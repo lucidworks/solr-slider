@@ -15,7 +15,7 @@ Throughout these instructions, $PROJECT_HOME refers to the directory where you c
 
 **1) Start ZooKeeper 3.4.6+ on your local workstation**
 
-Running Solr with embedded ZooKeeper is not supported. Take note of the ZooKeeper connection string as you'll need to include it in the Solr deployment metadata below.
+Running Solr with embedded ZooKeeper is not supported. Take note of the ZooKeeper connection string as you'll need to include it in the Solr deployment metadata below (see step 5).
 
 **2) Download a Solr distribution archive (tgz)**
 
@@ -51,11 +51,11 @@ Edit the `$PROJECT_HOME/appConfig-default.json`. At a minimum, you'll need to up
 
 Review the other settings in this file to verify they are correct for your environment.
 
-6) Configure the number of Solr nodes to deploy
+**6) Configure the number of Solr nodes to deploy**
 
 Edit `yarn.component.instances` in `resources-default.json` to set the number of Solr nodes to deploy across your cluster.
 
-7) Deploy Solr on YARN
+**7) Deploy Solr on YARN**
 
 ```
 slider create solr --manager $YARN_MANAGER \
@@ -65,7 +65,7 @@ slider create solr --manager $YARN_MANAGER \
 
 where `$YARN_MANAGER` is the host and port of the YARN resource manager, such as localhost:8032.
 
-8) Navigate to the YARN ResourceManager Web UI
+**8) Navigate to the YARN ResourceManager Web UI**
 
 Also, you can get the URL of each Solr instance by consulting the Slider registry (so you can reach the Solr Web Admin UI) by doing:
 
