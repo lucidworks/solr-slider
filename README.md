@@ -73,11 +73,7 @@ Also, you can get the URL of each Solr instance by consulting the Slider registr
 slider registry --name solr --getexp servers --manager $YARN_MANAGER
 ```
 
-You can get the ZooKeeper connection string used by Solr by doing:
-
-```
-slider registry --name solr --getexp zookeeper --manager $YARN_MANAGER
-```
+This will also show the ZooKeeper connection string used by each Solr (of course it should be the same for all nodes).
 
 NOTE: The registry command requires using Java 7 as there's a bug in Slider that prevents the registry command from working correctly,
 see: https://issues.apache.org/jira/browse/SLIDER-878

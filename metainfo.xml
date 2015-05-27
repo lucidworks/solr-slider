@@ -26,17 +26,12 @@
 
     <exportGroups>
       <exportGroup>
-        <name>servers</name>
+        <name>Servers</name>
         <exports>
           <export>
             <name>host_port</name>
             <value>http://${SOLR_HOST}:${site.global.listen_port}/</value>
           </export>
-        </exports>
-      </exportGroup>
-      <exportGroup>
-        <name>zookeeper</name>
-        <exports>
           <export>
             <name>zkhost</name>
             <value>${site.global.zk_host}</value>
@@ -49,7 +44,7 @@
       <component>
         <name>SOLR</name>
         <category>SLAVE</category>
-        <compExports>servers-host_port,zookeeper-zkhost</compExports>
+        <compExports>Servers-host_port,Servers-zkhost</compExports>
         <commandScript>
           <script>scripts/solr_node.py</script>
           <scriptType>PYTHON</scriptType>
