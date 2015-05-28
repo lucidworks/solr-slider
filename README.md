@@ -1,4 +1,4 @@
-Lucidworks Solr on YARN via Slider
+Solr on YARN via Slider
 ========
 
 Solr on YARN - Slider package for deploying SolrCloud to a YARN cluster.
@@ -9,13 +9,26 @@ Getting Started
 Follow the instructions for getting started with Slider:
 http://slider.incubator.apache.org/docs/getting_started.html
 
-Be sure to add the $SLIDER_HOME/bin directory to your path.
+Be sure to add the `$SLIDER_HOME/bin` directory to your path.
 
-Throughout these instructions, $PROJECT_HOME refers to the directory where you cloned this project.
+Also, make sure your `conf/slider-client.xml` file sets the ResourceManager address so you don't have to
+include the `--manager` parameter with every slider command.
+
+```
+  <property>
+    <name>yarn.resourcemanager.address</name>
+    <value>localhost:8032</value>
+  </property>
+```
+
+Throughout these instructions, `$PROJECT_HOME` refers to the directory where you cloned this project.
 
 **1) Start ZooKeeper 3.4.6+ on your local workstation**
 
-Running Solr with embedded ZooKeeper is not supported. Take note of the ZooKeeper connection string as you'll need to include it in the Solr deployment metadata below (see step 5).
+Running Solr with embedded ZooKeeper is not supported. Thus, you need to deploy at least one standalone ZooKeeper
+process, but of course at least 3 servers are required to establish quorum for production environments.
+Take note of the ZooKeeper connection string as you'll need to include it in the Solr deployment metadata
+below (see step 5).
 
 **2) Download a Solr distribution archive (tgz)**
 
@@ -41,7 +54,8 @@ slider install-package --replacepkg --name solr --package $PROJECT_HOME/solr-on-
 
 **5) Configure environment specific settings**
 
-Edit the `$PROJECT_HOME/appConfig-default.json`. At a minimum, you'll need to update the following settings to match your environment:
+Edit the `$PROJECT_HOME/appConfig-default.json`. At a minimum, you'll need to update the following settings
+to match your environment:
 
 ```
     "java_home": "/Library/Java/JavaVirtualMachines/jdk1.7.0_67.jdk/Contents/Home",
@@ -58,8 +72,7 @@ Edit `yarn.component.instances` in `resources-default.json` to set the number of
 **7) Deploy Solr on YARN**
 
 ```
-slider create solr --manager $YARN_MANAGER \
-  --template $PROJECT_HOME/appConfig-default.json \
+slider create solr --template $PROJECT_HOME/appConfig-default.json \
   --resources $PROJECT_HOME/resources-default.json
 ```
 
@@ -67,13 +80,14 @@ where `$YARN_MANAGER` is the host and port of the YARN resource manager, such as
 
 **8) Navigate to the YARN ResourceManager Web UI**
 
-Also, you can get the URL of each Solr instance by consulting the Slider registry (so you can reach the Solr Web Admin UI) by doing:
+Also, you can get the URL of each Solr instance by consulting the Slider registry
+(so you can reach the Solr Web Admin UI) by doing:
 
 ```
-slider registry --name solr --getexp servers --manager $YARN_MANAGER
+slider registry --name solr --getexp servers
 ```
 
 This will also show the ZooKeeper connection string used by each Solr (of course it should be the same for all nodes).
 
-NOTE: The registry command requires using Java 7 as there's a bug in Slider that prevents the registry command from working correctly,
-see: https://issues.apache.org/jira/browse/SLIDER-878
+NOTE: The registry command requires using Java 7 as there's a bug in Slider that prevents the registry command
+from working correctly, see: https://issues.apache.org/jira/browse/SLIDER-878
